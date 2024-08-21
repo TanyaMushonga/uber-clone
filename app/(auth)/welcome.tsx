@@ -4,10 +4,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import Swiper from "react-native-swiper";
 import { onboarding } from "@/constants";
+import CustomButton from "@/components/CustomButton";
 
 const Onboarding = () => {
   const swiperRef = useRef<Swiper>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const isLastIndex = activeIndex === onboarding.length - 1;
+
   return (
     <SafeAreaView className="flex h-full items-center justify-between bg-white">
       <TouchableOpacity
@@ -41,10 +44,21 @@ const Onboarding = () => {
                 {item.title}
               </Text>
             </View>
-            <Text className="text-lg font-JakartaBold text-center text-[#858585] mx-10 mt-3">{item.description}</Text>
+            <Text className="text-lg font-JakartaBold text-center text-[#858585] mx-10 mt-3">
+              {item.description}
+            </Text>
           </View>
         ))}
       </Swiper>
+      <CustomButton
+        title={isLastIndex ? "Get Started" : "Next"}
+        className={"w-11/12 mt-10"}
+        onPress={() =>
+          isLastIndex
+            ? router.replace("/(auth)/sign-up")
+            : swiperRef.current?.scrollBy(1)
+        }  
+      />
     </SafeAreaView>
   );
 };
