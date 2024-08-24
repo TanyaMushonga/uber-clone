@@ -186,7 +186,7 @@ export default function Page() {
             </>
 
             <Text className="text-xl font-JakartaBold mt-5 mb-3">
-              Recent Rides
+              Recent Rides that are pressent
             </Text>
           </>
         )}
