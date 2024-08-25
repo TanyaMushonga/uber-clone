@@ -15,6 +15,7 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocationStore } from "@/store";
+import { router } from "expo-router";
 
 const recentRides = [
   {
@@ -129,8 +130,20 @@ export default function Page() {
   const { setUserLocation, setDestinationLocation } = useLocationStore();
   const [hasPermission, setHasPermission] = useState(false);
 
+  const emailPrefix = user?.emailAddresses[0].emailAddress.split("@")[0];
+  const firstFive = emailPrefix?.slice(0, 5);
+  const lastFive = emailPrefix?.slice(-8);
+  const result = `${firstFive}...${lastFive}`;
+
   const handleSignOut = async () => {};
-  const destinationPress = () => {};
+  const destinationPress = (location: {
+    latitude: number;
+    longitude: number;
+    address: string;
+  }) => {
+    setDestinationLocation(location);
+    router.push("/(root)/find-ride");
+  };
 
   useEffect(() => {
     const requestLocation = async () => {
@@ -187,13 +200,13 @@ export default function Page() {
           <>
             <View className="flex flex-row items-center justify-between my-5">
               <Text className="capitalize text-xl font-JakartaExtraBold">
-                Welcome{" "}
-                {user?.firstName ||
-                  user?.emailAddresses[0].emailAddress.split("@")[0]}
+                Welcome {user?.firstName || result}
                 👋
               </Text>
               <TouchableOpacity
-                onPress={handleSignOut}
+                onPress={() => {
+                  router.push("/(root)/find-ride");
+                }}
                 className="justify-center items-center w-10 h-10 rounded-full bg-white"
               >
                 <Image source={icons.out} className="w-5 h-5" />
