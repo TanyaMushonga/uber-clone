@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import { Image, ImageSourcePropType, View } from "react-native";
-
+import { useKeyboardVisibility } from "@/hooks/useKeyboardVisibility";
 import { icons } from "@/constants";
 
 const TabIcon = ({
@@ -27,6 +27,8 @@ const TabIcon = ({
 );
 
 export default function Layout() {
+  const keyboardVisible = useKeyboardVisibility();
+
   return (
     <Tabs
       initialRouteName="index"
@@ -42,7 +44,7 @@ export default function Layout() {
           marginHorizontal: 20,
           marginBottom: 20,
           height: 78,
-          display: "flex",
+          display: keyboardVisible ? "none" : "flex",
           justifyContent: "space-between",
           alignItems: "center",
           flexDirection: "row",
