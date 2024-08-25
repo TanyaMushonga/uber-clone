@@ -72,6 +72,7 @@ const Map = () => {
   });
 
   useEffect(() => {
+    setDrivers(drivers);
     if (Array.isArray(drivers)) {
       if (!userLatitude || !userLongitude) return;
 
@@ -106,7 +107,6 @@ const Map = () => {
           image={
             selectedDriver === marker.id ? icons.selectedMarker : icons.marker
           }
-     
         />
       ))}
     </MapView>
