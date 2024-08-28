@@ -17,22 +17,11 @@ const BookRide = () => {
     (driver) => +driver.id === selectedDriver
   )[0];
 
-  const [publishableKey, setPublishableKey] = useState("");
-
-  const fetchPublishableKey = async () => {
-    // const key = await fetchKey(); // fetch key from your server here
-    // setPublishableKey(key);
-  };
-
-  useEffect(() => {
-    fetchPublishableKey();
-  }, []);
-
   return (
     <StripeProvider
-      publishableKey={publishableKey}
-      merchantIdentifier="merchant.identifier" // required for Apple Pay
-      urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+      publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY!}
+      merchantIdentifier="merchant.uber-clone.com"
+      urlScheme="myapp"
     >
       <RideLayout title="Book Ride">
         <>
@@ -75,7 +64,7 @@ const BookRide = () => {
             <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
               <Text className="text-lg font-JakartaRegular">Pickup Time</Text>
               <Text className="text-lg font-JakartaRegular">
-                {formatTime(driverDetails?.time || 5)}
+                {formatTime(parseInt(`${driverDetails.time}`))}
               </Text>
             </View>
 
@@ -103,7 +92,13 @@ const BookRide = () => {
             </View>
           </View>
 
-          <Payment />
+          <Payment
+            fullName={user?.fullName!}
+            email={user?.emailAddresses[0].emailAddress!}
+            amount={driverDetails?.price!}
+            driverId={driverDetails?.id}
+            rideTime={driverDetails?.time!}
+          />
         </>
       </RideLayout>
     </StripeProvider>
