@@ -45,7 +45,7 @@ const Payment = ({
 
   const initializePaymentSheet = async () => {
     const { error } = await initPaymentSheet({
-      merchantDisplayName: "Uber-clone , Inc.",
+      merchantDisplayName: "Uber-clone, Inc.",
       intentConfiguration: {
         mode: {
           amount: parseInt(amount) * 100,
@@ -54,7 +54,7 @@ const Payment = ({
         confirmHandler: async (
           paymentMethod,
           shouldSavePaymentMethod,
-          intentCreationCallback,
+          intentCreationCallback
         ) => {
           const { paymentIntent, customer } = await fetchAPI(
             "/(api)/(stripe)/create",
@@ -69,7 +69,7 @@ const Payment = ({
                 amount: amount,
                 paymentMethodId: paymentMethod.id,
               }),
-            },
+            }
           );
 
           if (paymentIntent.client_secret) {
