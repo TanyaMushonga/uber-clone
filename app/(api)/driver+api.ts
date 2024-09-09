@@ -1,9 +1,8 @@
-import { neon } from "@neondatabase/serverless";
+import prisma from "@/prismaClient";
 
 export async function GET(request: Request) {
   try {
-    const sql = neon(`${process.env.DATABASE_URL}`);
-    const response = await sql`SELECT * FROM drivers`;
+    const response = await prisma.drivers.findMany();
 
     return Response.json({ data: response });
   } catch (error) {
