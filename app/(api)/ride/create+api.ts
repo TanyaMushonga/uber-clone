@@ -36,6 +36,8 @@ export async function POST(request: Request) {
       );
     }
 
+    const rideTime = parseInt(ride_time, 10);
+
     const response = await prisma.rides.create({
       data: {
         origin_address,
@@ -44,7 +46,7 @@ export async function POST(request: Request) {
         origin_longitude,
         destination_latitude,
         destination_longitude,
-        ride_time,
+        ride_time: rideTime,
         fare_price,
         payment_status,
         driver_id,

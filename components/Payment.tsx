@@ -42,8 +42,8 @@ const Payment = ({
       setSuccess(true);
     }
   };
-
   const initializePaymentSheet = async () => {
+    console.log("payment initialising");
     const { error } = await initPaymentSheet({
       merchantDisplayName: "Uber-clone, Inc.",
       intentConfiguration: {
@@ -72,6 +72,8 @@ const Payment = ({
             }
           );
 
+          console.log("calling pay api");
+
           if (paymentIntent.client_secret) {
             const { result } = await fetchAPI("/(api)/(stripe)/pay", {
               method: "POST",
@@ -85,6 +87,8 @@ const Payment = ({
                 client_secret: paymentIntent.client_secret,
               }),
             });
+
+            console.log("creating a ride");
 
             if (result.client_secret) {
               await fetchAPI("/(api)/ride/create", {
