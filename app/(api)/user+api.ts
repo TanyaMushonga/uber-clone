@@ -10,9 +10,9 @@ export async function POST(request: Request) {
 
     const response = await prisma.users.create({
       data: {
-        name: name,
-        email: email,
-        clerkId: clerkId,
+        name,
+        email,
+        clerkId,
       },
     });
 

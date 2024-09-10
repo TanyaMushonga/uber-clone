@@ -1,30 +1,35 @@
-import GoogleTextInput from "@/components/GoogleTextInput";
-import * as Location from "expo-location";
-import Map from "@/components/Map";
-import RideCard from "@/components/RideCard";
-import { icons, images } from "@/constants";
-import { SignedIn, useUser } from "@clerk/clerk-expo";
-import React, { useState, useEffect } from "react";
+import { useUser } from "@clerk/clerk-expo";
 import { useAuth } from "@clerk/clerk-expo";
+import * as Location from "expo-location";
+import { router } from "expo-router";
+import { useState, useEffect } from "react";
 import {
   Text,
   View,
-  Image,
-  ActivityIndicator,
   TouchableOpacity,
+  Image,
+  FlatList,
+  ActivityIndicator,
 } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocationStore } from "@/store";
-import { router } from "expo-router";
+
+import GoogleTextInput from "@/components/GoogleTextInput";
+import Map from "@/components/Map";
+import RideCard from "@/components/RideCard";
+import { icons, images } from "@/constants";
 import { useFetch } from "@/lib/fetch";
+import { useLocationStore } from "@/store";
 import { Ride } from "@/types/type";
 
-export default function Page() {
+const Home = () => {
   const { user } = useUser();
   const { signOut } = useAuth();
 
   const { setUserLocation, setDestinationLocation } = useLocationStore();
+  const emailPrefix = user?.emailAddresses[0].emailAddress.split("@")[0];
+  const firstFive = emailPrefix?.slice(0, 5);
+  const lastFive = emailPrefix?.slice(-8);
+  const result = `${firstFive}...${lastFive}`;
 
   const handleSignOut = () => {
     signOut();
@@ -32,10 +37,6 @@ export default function Page() {
   };
 
   const [hasPermission, setHasPermission] = useState<boolean>(false);
-  const emailPrefix = user?.emailAddresses[0].emailAddress.split("@")[0];
-  const firstFive = emailPrefix?.slice(0, 5);
-  const lastFive = emailPrefix?.slice(-8);
-  const result = `${firstFive}...${lastFive}`;
 
   const {
     data: recentRides,
@@ -77,13 +78,16 @@ export default function Page() {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="bg-general-500">
       <FlatList
         data={recentRides?.slice(0, 5)}
         renderItem={({ item }) => <RideCard ride={item} />}
+        keyExtractor={(item, index) => index.toString()}
         className="px-5"
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{
+          paddingBottom: 100,
+        }}
         ListEmptyComponent={() => (
           <View className="flex flex-col items-center justify-center">
             {!loading ? (
@@ -94,16 +98,14 @@ export default function Page() {
                   alt="No recent rides found"
                   resizeMode="contain"
                 />
-                <Text className="text-lg text-gray-500">
-                  No recent rides found
-                </Text>
+                <Text className="text-sm">No recent rides found</Text>
               </>
             ) : (
               <ActivityIndicator size="small" color="#000" />
             )}
           </View>
         )}
-        ListHeaderComponent={() => (
+        ListHeaderComponent={
           <>
             <View className="flex flex-row items-center justify-between my-5">
               <Text className="capitalize text-xl font-JakartaExtraBold">
@@ -111,19 +113,19 @@ export default function Page() {
                 👋
               </Text>
               <TouchableOpacity
-                onPress={() => {
-                  handleSignOut();
-                }}
+                onPress={handleSignOut}
                 className="justify-center items-center w-10 h-10 rounded-full bg-white"
               >
-                <Image source={icons.out} className="w-5 h-5" />
+                <Image source={icons.out} className="w-4 h-4" />
               </TouchableOpacity>
             </View>
+
             <GoogleTextInput
               icon={icons.search}
               containerStyle="bg-white shadow-md shadow-neutral-300"
               handlePress={handleDestinationPress}
             />
+
             <>
               <Text className="text-xl font-JakartaBold mt-5 mb-3">
                 Your current location
@@ -134,11 +136,13 @@ export default function Page() {
             </>
 
             <Text className="text-xl font-JakartaBold mt-5 mb-3">
-              Recent Rides that are pressent
+              Recent Rides
             </Text>
           </>
-        )}
+        }
       />
     </SafeAreaView>
   );
-}
+};
+
+export default Home;
