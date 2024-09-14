@@ -9,7 +9,7 @@ import { useDriverStore } from "@/store";
 const ConfirmRide = () => {
   const { drivers, selectedDriver, setSelectedDriver } = useDriverStore();
   return (
-    <RideLayout title="Choose a Driver">
+    <RideLayout title="">
       <FlatList
         data={drivers}
         renderItem={({ item }) => (
@@ -22,7 +22,7 @@ const ConfirmRide = () => {
         ListFooterComponent={() => (
           <View className="mx-5 mt-10">
             <CustomButton
-              title="Select Ride"
+              title="Select parking"
               onPress={() => {
                 router.push("/(root)/book-ride");
               }}

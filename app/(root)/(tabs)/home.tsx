@@ -136,7 +136,7 @@ const Home = () => {
             </>
 
             <Text className="text-xl font-JakartaBold mt-5 mb-3">
-              Recent Rides
+              Free available parking spaces
             </Text>
           </>
         }

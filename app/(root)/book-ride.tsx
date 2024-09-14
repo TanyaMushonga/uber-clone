@@ -23,7 +23,7 @@ const BookRide = () => {
       merchantIdentifier="merchant.uber-clone.com"
       urlScheme="myapp"
     >
-      <RideLayout title="Book Ride">
+      <RideLayout title="">
         <>
           <Text className="text-xl font-JakartaSemiBold mb-3">
             Ride Information

@@ -53,6 +53,12 @@ declare interface Ride {
   };
 }
 
+declare interface Parking {
+  address: string;
+  latitude: number;
+  longitude: number;
+}
+
 declare interface ButtonProps extends TouchableOpacityProps {
   title: string;
   bgVariant?: "primary" | "secondary" | "danger" | "outline" | "success";
