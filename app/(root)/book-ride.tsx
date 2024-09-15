@@ -23,16 +23,18 @@ const BookRide = () => {
       merchantIdentifier="merchant.uber-clone.com"
       urlScheme="myapp"
     >
-      <RideLayout title="">
+      <RideLayout title="Book Ride">
         <>
           <Text className="text-xl font-JakartaSemiBold mb-3">
-            Ride Information
+            Parking Information
           </Text>
 
           <View className="flex flex-col w-full items-center justify-center mt-10">
             <Image
-              source={{ uri: driverDetails?.profile_image_url }}
-              className="w-28 h-28 rounded-full"
+              source={{
+                uri: `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:31.0335,-17.8252&zoom=14&apiKey=${process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY}`,
+              }}
+              className="w-28 h-28 rounded-md"
             />
 
             <View className="flex flex-row items-center justify-center mt-5 space-x-2">
@@ -55,21 +57,21 @@ const BookRide = () => {
 
           <View className="flex flex-col w-full items-start justify-center py-3 px-5 rounded-3xl bg-general-600 mt-5">
             <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
-              <Text className="text-lg font-JakartaRegular">Ride Price</Text>
+              <Text className="text-lg font-JakartaRegular">Price</Text>
               <Text className="text-lg font-JakartaRegular text-[#0CC25F]">
                 ${driverDetails?.price}
               </Text>
             </View>
 
             <View className="flex flex-row items-center justify-between w-full border-b border-white py-3">
-              <Text className="text-lg font-JakartaRegular">Pickup Time</Text>
+              <Text className="text-lg font-JakartaRegular">Duration</Text>
               <Text className="text-lg font-JakartaRegular">
                 {formatTime(parseInt(`${driverDetails?.time}`))}
               </Text>
             </View>
 
             <View className="flex flex-row items-center justify-between w-full py-3">
-              <Text className="text-lg font-JakartaRegular">Car Seats</Text>
+              <Text className="text-lg font-JakartaRegular">Free slots</Text>
               <Text className="text-lg font-JakartaRegular">
                 {driverDetails?.car_seats}
               </Text>

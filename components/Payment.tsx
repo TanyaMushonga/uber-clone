@@ -128,11 +128,7 @@ const Payment = ({
 
   return (
     <>
-      <CustomButton
-        title="Confirm Ride"
-        className="my-10"
-        onPress={openPaymentSheet}
-      />
+      <CustomButton title="Pay" className="my-10" onPress={openPaymentSheet} />
 
       <ReactNativeModal
         isVisible={success}
@@ -142,12 +138,12 @@ const Payment = ({
           <Image source={images.check} className="w-28 h-28 mt-5" />
 
           <Text className="text-2xl text-center font-JakartaBold mt-5">
-            Booking placed successfully
+           Payment has been successfully
           </Text>
 
           <Text className="text-md text-general-200 font-JakartaRegular text-center mt-3">
-            Thank you for your booking. Your reservation has been successfully
-            placed. Please proceed with your trip.
+            Thank you for your payment. Your reservation has been successfully
+            placed. Please proceed with to your parking.
           </Text>
 
           <CustomButton

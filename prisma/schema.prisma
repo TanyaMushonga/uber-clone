@@ -38,6 +38,18 @@ model drivers {
   @@map("drivers")
 }
 
+model parkings {
+  id        Int    @id @default(autoincrement())
+  address   String
+  latitude  Float
+  longitude Float
+  price     Float
+  time      String
+  rating    Int
+
+  @@map("parkings")
+}
+
 model rides {
   ride_id               Int      @id @default(autoincrement())
   origin_address        String

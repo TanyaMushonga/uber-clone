@@ -10,6 +10,15 @@ declare interface Driver {
   rating: number;
 }
 
+declare interface parking {
+  id: number;
+  address: string;
+  latitude: number;address
+  price: Float;
+  time: string;
+  rating: number;
+}
+
 declare interface MarkerData {
   latitude: number;
   longitude: number;

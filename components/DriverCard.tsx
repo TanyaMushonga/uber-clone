@@ -1,13 +1,11 @@
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { generateRandomCoordinates } from "@/lib/coordinates";
 
 import { icons } from "@/constants";
 import { formatTime } from "@/lib/utils";
 import { DriverCardProps } from "@/types/type";
 
 const DriverCard = ({ item, selected, setSelected }: DriverCardProps) => {
-  const { latitude, longitude, address } = generateRandomCoordinates();
   return (
     <TouchableOpacity
       onPress={setSelected}
@@ -17,14 +15,14 @@ const DriverCard = ({ item, selected, setSelected }: DriverCardProps) => {
     >
       <Image
         source={{
-          uri: `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${longitude},${latitude}&zoom=14&apiKey=${process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY}`,
+          uri: `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:31.0335,-17.8252&zoom=14&apiKey=${process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY}`,
         }}
-        className="w-20 h-20 rounded-sm"
+        className="w-20 h-20 rounded-md"
       />
 
       <View className="flex-1 flex flex-col items-start justify-center mx-3">
         <View className="flex flex-row items-center justify-start mb-1">
-          <Text className="text-lg font-JakartaRegular">{address}</Text>
+          <Text className="text-lg font-JakartaRegular">{item.title}</Text>
 
           <View className="flex flex-row items-center space-x-1 ml-2">
             <Image source={icons.star} className="w-3.5 h-3.5" />

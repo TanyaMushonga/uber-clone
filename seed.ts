@@ -2,50 +2,60 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-  const drivers = [
+    const dummyData = [
     {
-      first_name: "James",
-      last_name: "Wilson",
-      profile_image_url: "https://ucarecdn.com/dae59f69-2c1f-48c3-a883-017bcf0f9950/-/preview/1000x666/",
-      car_image_url: "https://ucarecdn.com/a2dc52b2-8bf7-4e49-9a36-3ffb5229ed02/-/preview/465x466/",
-      car_seats: 4,
-      rating: 4.80
+      address: "10 First Ave, Harare, Zimbabwe",
+      latitude: -17.8240,
+      longitude: 31.0300,
+      price: 4.5,
+      time: "07:00 - 19:00",
+      rating: 4,
     },
     {
-      first_name: "David",
-      last_name: "Brown",
-      profile_image_url: "https://ucarecdn.com/6ea6d83d-ef1a-483f-9106-837a3a5b3f67/-/preview/1000x666/",
-      car_image_url: "https://ucarecdn.com/a3872f80-c094-409c-82f8-c9ff38429327/-/preview/930x932/",
-      car_seats: 5,
-      rating: 4.60
+      address: "20 Second Ave, Harare, Zimbabwe",
+      latitude: -17.8280,
+      longitude: 31.0500,
+      price: 3.0,
+      time: "06:00 - 18:00",
+      rating: 5,
     },
     {
-      first_name: "Michael",
-      last_name: "Johnson",
-      profile_image_url: "https://ucarecdn.com/0330d85c-232e-4c30-bd04-e5e4d0e3d688/-/preview/826x822/",
-      car_image_url: "https://ucarecdn.com/289764fb-55b6-4427-b1d1-f655987b4a14/-/preview/930x932/",
-      car_seats: 4,
-      rating: 4.70
+      address: "30 Third Ave, Harare, Zimbabwe",
+      latitude: -17.8270,
+      longitude: 31.0450,
+      price: 4.2,
+      time: "08:00 - 20:00",
+      rating: 3,
     },
     {
-      first_name: "Robert",
-      last_name: "Green",
-      profile_image_url: "https://ucarecdn.com/fdfc54df-9d24-40f7-b7d3-6f391561c0db/-/preview/626x417/",
-      car_image_url: "https://ucarecdn.com/b6fb3b55-7676-4ff3-8484-fb115e268d32/-/preview/930x932/",
-      car_seats: 4,
-      rating: 4.90
-    }
+      address: "40 Fourth Ave, Harare, Zimbabwe",
+      latitude: -17.8490,
+      longitude: 31.0600,
+      price: 5.5,
+      time: "09:00 - 17:00",
+      rating: 4,
+    },
+    {
+      address: "50 Fifth Ave, Harare, Zimbabwe",
+      latitude: -17.8320,
+      longitude: 31.1250,
+      price: 2.8,
+      time: "05:00 - 22:00",
+      rating: 5,
+    },
   ];
 
-  for (const driver of drivers) {
-    await prisma.drivers.create({
-      data: driver,
+  for (const parking of dummyData) {
+    await prisma.parkings.create({
+      data: parking,
     });
   }
+
+  console.log("Dummy data inserted successfully!");
 }
 
 main()
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(1);
   })
