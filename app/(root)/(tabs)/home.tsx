@@ -20,6 +20,14 @@ import { icons, images } from "@/constants";
 import { useFetch } from "@/lib/fetch";
 import { useLocationStore } from "@/store";
 import { Ride } from "@/types/type";
+import app from "@/firebase.config";
+import { getDatabase, ref, onValue } from "firebase/database";
+
+interface parkings {
+  address: string;
+  coordinates: any;
+  occupied: boolean;
+}
 
 const Home = () => {
   const { user } = useUser();
@@ -76,6 +84,62 @@ const Home = () => {
 
     router.push("/(root)/find-ride");
   };
+
+  const [data, setData] = useState<parkings[]>([]);
+  let coordinatesArray: {
+    address: string;
+    coordinates: any;
+    occupied: boolean;
+  }[] = [];
+  useEffect(() => {
+    const fetchData = () => {
+      const db = getDatabase(app);
+      const dbRef = ref(db);
+      onValue(dbRef, (snapshot) => {
+        if (snapshot.exists()) {
+          console.log("Fetching data from Firebase");
+          const data = snapshot.val();
+          const dataArray = Object.keys(data).map((key) => data[key]);
+          const formattedData: parkings[] = dataArray.map((item) => {
+            const datetime = item.datetime;
+            const deviceId = item.device_id;
+            const spots = item.spots
+              .filter((spot: parkings) => !spot.occupied)
+              .map((spot: parkings) => {
+                return {
+                  address: spot.address,
+                  coordinates: spot.coordinates,
+                  occupied: spot.occupied,
+                };
+              });
+
+            spots.forEach((spot: parkings) => {
+              coordinatesArray.push(spot.coordinates);
+              console.log(
+                `Address: ${spot.address}, Coordinates: ${JSON.stringify(
+                  spot.coordinates
+                )}`
+              );
+            });
+            console.log(coordinatesArray);
+            return {
+              address: "", // Add a default value for address
+              coordinates: {}, // Add a default value for coordinates
+              occupied: false, // Add a default value for occupied
+              datetime,
+              deviceId,
+              spots,
+            };
+          });
+          setData(formattedData); // Set the state with the new data
+          console.log("data", data);
+        } else {
+          console.log("No data available");
+        }
+      });
+    };
+    fetchData();
+  }, []);
 
   return (
     <SafeAreaView className="bg-general-500">
